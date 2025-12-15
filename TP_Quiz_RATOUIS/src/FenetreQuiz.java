@@ -151,18 +151,19 @@ public class FenetreQuiz extends JFrame {
 
     private int questionIndex = 0;
     private String[][] questions = {
-            {"Quelle est la capitale de la France ?", "Paris", "Londres", "Berlin", "Madrid"},
-            {"2 + 2 = ?", "3", "4", "5", "6"},
-            {"La Terre est-elle plate ?", "Oui", "Non", "Peut-être", "Je ne sais pas"},
-            {"Java est un ?", "Fruit", "Langage de programmation", "Animal", "Ville"}
+            {"Quelle est la capitale de la France ?", "Paris", "Londres", "Berlin", "Madrid", "Paris"},
+            {"2 + 2 = ?", "3", "4", "5", "6", "4"},
+            {"La Terre est-elle plate ?", "Oui", "Non", "Peut-être", "Je ne sais pas", "Non"},
+            {"Java est un ?", "Fruit", "Langage de programmation", "Animal", "Ville", "Langage de programmation"}
     };
 
     private JLabel questionLabel;
     private JButton btn1, btn2, btn3, btn4;
+    private int score = 0;
 
     public FenetreQuiz() {
         setTitle("Quiz Swing");
-        setSize(400, 300);
+        setSize(450, 250);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
@@ -187,6 +188,11 @@ public class FenetreQuiz extends JFrame {
         ActionListener listener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                JButton clicked = (JButton) e.getSource();
+                // Vérifie si la réponse est correcte
+                if (clicked.getText().equals(questions[questionIndex][5])) {
+                    score++;
+                }
                 questionIndex++;
                 showQuestion();
             }
@@ -207,8 +213,12 @@ public class FenetreQuiz extends JFrame {
             btn2.setText(questions[questionIndex][2]);
             btn3.setText(questions[questionIndex][3]);
             btn4.setText(questions[questionIndex][4]);
+            btn1.setVisible(true);
+            btn2.setVisible(true);
+            btn3.setVisible(true);
+            btn4.setVisible(true);
         } else {
-            questionLabel.setText("Quiz terminé !");
+            questionLabel.setText("Quiz terminé ! Votre score : " + score + "/" + questions.length);
             btn1.setVisible(false);
             btn2.setVisible(false);
             btn3.setVisible(false);
@@ -217,8 +227,6 @@ public class FenetreQuiz extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            new FenetreQuiz().setVisible(true);
-        });
+        SwingUtilities.invokeLater(() -> new FenetreQuiz().setVisible(true));
     }
 }
